@@ -1,0 +1,8 @@
+apiVersion: ngrok.com/v1alpha1
+kind: Ngrok
+metadata:
+  name: nginx-ngrok
+  namespace: default
+spec:
+  service: nginx-service
+  port: 80

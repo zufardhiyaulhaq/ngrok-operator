@@ -1,0 +1,7 @@
+apiVersion: ngrok.com/v1alpha1
+kind: Ngrok
+metadata:
+  name: example-ngrok
+spec:
+  # Add fields here
+  size: 3

@@ -4,5 +4,9 @@ metadata:
   name: helloworld-ngrok
   namespace: helloworld
 spec:
+  # service section represent
+  # the service name in the same namespace
   service: helloworld-service
+  # port section represent
+  # the service port in the same namespace
   port: 5000

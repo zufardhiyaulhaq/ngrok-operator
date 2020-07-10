@@ -4,5 +4,9 @@ metadata:
   name: nginx-ngrok
   namespace: default
 spec:
+  # service section represent
+  # the service name in the same namespace
   service: nginx-service
+  # port section represent
+  # the service port in the same namespace
   port: 80

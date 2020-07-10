@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	ngrokv1alpha1 "github.com/zufardhiyaulhaq/ngrok-operator/pkg/apis/ngrok/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
@@ -163,6 +164,8 @@ func (r *ReconcileNgrok) Reconcile(request reconcile.Request) (reconcile.Result,
 
 		return reconcile.Result{}, err
 	}
+
+	time.Sleep(60 * time.Second)
 
 	if foundPod.Status.PodIP != "" {
 		fmt.Println(foundPod.Status.PodIP)

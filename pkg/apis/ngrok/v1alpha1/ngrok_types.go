@@ -20,11 +20,9 @@ type NgrokStatus struct {
 
 // Ngrok is the Schema for the ngroks API
 // +kubebuilder:subresource:status
-// +kubebuilder:resource:path=ngroks,scope=Cluster
+// +kubebuilder:resource:path=ngroks,scope=Namespaced
 // +kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.status",description="Ngrok status"
 // +kubebuilder:printcolumn:name="URL",type="string",JSONPath=".status.url",description="Ngrok URL"
-// +k8s:openapi-gen=true
-// +genclient:Cluster
 type Ngrok struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

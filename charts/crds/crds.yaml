@@ -9,7 +9,7 @@ spec:
     listKind: NgrokList
     plural: ngroks
     singular: ngrok
-  scope: Cluster
+  scope: Namespaced
   versions:
   - additionalPrinterColumns:
     - description: Ngrok status

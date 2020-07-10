@@ -20,9 +20,7 @@ spec:
         imagePullPolicy: {{ .Values.operator.pullPolicy }}
         env:
           - name: WATCH_NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: ""
+            value: ""
           - name: POD_NAME
             valueFrom:
               fieldRef:

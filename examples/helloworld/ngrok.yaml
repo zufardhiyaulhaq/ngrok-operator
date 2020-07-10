@@ -1,0 +1,8 @@
+apiVersion: ngrok.com/v1alpha1
+kind: Ngrok
+metadata:
+  name: helloworld-ngrok
+  namespace: helloworld
+spec:
+  service: helloworld-service
+  port: 5000

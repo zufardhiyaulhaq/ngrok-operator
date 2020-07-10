@@ -2,8 +2,9 @@ package ngrok
 
 import (
 	"context"
-	"fmt"
+	"io/ioutil"
 	"net/http"
+	"regexp"
 	"strconv"
 	"time"
 
@@ -161,21 +162,39 @@ func (r *ReconcileNgrok) Reconcile(request reconcile.Request) (reconcile.Result,
 	} else if err != nil {
 		ngrok.Status.Status = "error"
 		err := r.client.Status().Update(context.TODO(), ngrok)
-
 		return reconcile.Result{}, err
 	}
 
-	time.Sleep(60 * time.Second)
+	time.Sleep(30 * time.Second)
 
 	if foundPod.Status.PodIP != "" {
-		fmt.Println(foundPod.Status.PodIP)
-		fmt.Println("http://" + foundPod.Status.PodIP + ":4040/api/tunnels")
-		response, _ := http.Get("http://" + foundPod.Status.PodIP + ":4040/api/tunnels")
-		fmt.Println(response)
-	}
+		response, err := http.Get("http://" + foundPod.Status.PodIP + ":4040/api/tunnels")
+		if err != nil {
+			return reconcile.Result{}, err
+		}
 
-	ngrok.Status.URL = "http://xx"
-	err = r.client.Status().Update(context.TODO(), ngrok)
+		defer response.Body.Close()
+
+		body, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			return reconcile.Result{}, err
+		}
+
+		bodyString := string(body)
+
+		matcher, err := regexp.Compile(`https(.*?)io`)
+		if err != nil {
+			return reconcile.Result{}, err
+		}
+
+		url := matcher.FindString(bodyString)
+
+		ngrok.Status.URL = url
+		err = r.client.Status().Update(context.TODO(), ngrok)
+		if err != nil {
+			return reconcile.Result{}, err
+		}
+	}
 
 	reqLogger.Info("Skip reconcile: Pod already exists", "Pod.Namespace", foundPod.Namespace, "Pod.Name", foundPod.Name)
 	return reconcile.Result{}, nil

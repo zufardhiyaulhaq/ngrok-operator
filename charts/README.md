@@ -16,7 +16,4 @@ helm install ./charts --name ngrok-operator
 | operator.pullPolicy | pullPolicy | Always |
 | operator.replica | number of replica | 1 |
 
-Specify each parameter using the `--set key=value[,key=value]` argument to helm install. For example:
-```
-helm install ./charts --name-template ngrok-operator
-```
+Specify each parameter using the `--set key=value[,key=value]` argument to helm install.

@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-deployment
+spec:
+  replicas: {{ .Values.operator.replica }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      serviceAccountName: ngrok-operator
+      containers:
+      - name: {{ .Chart.Name }}-container
+        image: {{ .Values.operator.image }}:{{ .Values.operator.tag }}
+        imagePullPolicy: {{ .Values.operator.pullPolicy }}
+        env:
+          - name: WATCH_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: ""
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: OPERATOR_NAME
+            value: {{ .Chart.Name }}
+

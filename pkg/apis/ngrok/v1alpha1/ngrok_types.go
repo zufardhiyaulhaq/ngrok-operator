@@ -4,9 +4,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
 // NgrokSpec defines the desired state of Ngrok
 type NgrokSpec struct {
 	Service string `json:"service"`
@@ -24,6 +21,8 @@ type NgrokStatus struct {
 // Ngrok is the Schema for the ngroks API
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:path=ngroks,scope=Namespaced
+// +kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.status",description="Ngrok status"
+// +kubebuilder:printcolumn:name="URL",type="string",JSONPath=".status.url",description="Ngrok URL"
 type Ngrok struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

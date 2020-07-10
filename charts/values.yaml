@@ -1,0 +1,9 @@
+operator:
+  # image of ngrok-operator
+  image: "zufardhiyaulhaq/ngrok-operator"
+  # tag of ngrok-operator image
+  tag: "0.0.1"
+  # pullPolicy for operator image
+  pullPolicy: "Always"
+  # number of replica for deployment
+  replica: 1

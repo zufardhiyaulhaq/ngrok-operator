@@ -8,6 +8,31 @@ import (
 type NgrokSpec struct {
 	Service string `json:"service"`
 	Port    int32  `json:"port"`
+
+	// +kubebuilder:validation:Enum=http;tcp
+	// +kubebuilder:default:=http
+	// +optional
+	Protocol string `json:"protocol"`
+
+	// +optional
+	AuthToken string `json:"authtoken"`
+
+	// +optional
+	Auth string `json:"auth"`
+
+	// +optional
+	Hostname string `json:"hostname"`
+
+	// +optional
+	RemoteAddr string `json:"remote_addr"`
+
+	// +kubebuilder:validation:Enum=us;eu;ap;au;sa;jp;in
+	// +optional
+	Region string `json:"region"`
+
+	// +kubebuilder:default:=false
+	// +optional
+	Inspect bool `json:"inspect"`
 }
 
 // NgrokStatus defines the observed state of Ngrok

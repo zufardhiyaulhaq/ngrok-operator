@@ -2,8 +2,8 @@
 apiVersion: v1
 name: ngrok-operator
 type: application
-version: 0.0.1
-appVersion: 0.0.1
+version: 0.0.2
+appVersion: 0.0.2
 description: ngrok-operator for managing ngrok lifecycle
 home: https://github.com/zufardhiyaulhaq/ngrok-operator
 keywords:

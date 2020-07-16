@@ -183,7 +183,7 @@ func (r *ReconcileNgrok) Reconcile(request reconcile.Request) (reconcile.Result,
 
 		bodyString := string(body)
 
-		matcher, err := regexp.Compile(`https(.*?)io`)
+		matcher, err := regexp.Compile(`https://.[^"]+`)
 		if err != nil {
 			return reconcile.Result{}, err
 		}
@@ -235,7 +235,7 @@ func newNgrokPod(cr *ngrokv1alpha1.Ngrok) *corev1.Pod {
 				{
 					Name:    "ngrok",
 					Image:   "wernight/ngrok",
-					Command: []string{"ngrok", "--config", "/ngrok/ngrok.conf", "--all"},
+					Command: []string{"ngrok", "start", "--config", "/ngrok/ngrok.conf", "--all"},
 					Ports: []corev1.ContainerPort{
 						{ContainerPort: ngrokPort},
 					},
@@ -265,7 +265,7 @@ func newNgrokPod(cr *ngrokv1alpha1.Ngrok) *corev1.Pod {
 
 func generateConfiguration(cr *ngrokv1alpha1.Ngrok) string {
 	var output bytes.Buffer
-	tmpl := "template/configuration.tmpl"
+	tmpl := "templates/configuration.tmpl"
 
 	tpl, err := template.ParseFiles(tmpl)
 	if err != nil {

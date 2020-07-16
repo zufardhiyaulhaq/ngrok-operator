@@ -18,7 +18,21 @@ type NgrokSpec struct {
 	AuthToken string `json:"authtoken"`
 
 	// +optional
+	Auth string `json:"auth"`
+
+	// +optional
 	Hostname string `json:"hostname"`
+
+	// +optional
+	RemoteAddr string `json:"remote_addr"`
+
+	// +kubebuilder:validation:Enum=us;eu;ap;au;sa;jp;in
+	// +optional
+	Region string `json:"region"`
+
+	// +kubebuilder:default:=false
+	// +optional
+	Inspect bool `json:"inspect"`
 }
 
 // NgrokStatus defines the observed state of Ngrok

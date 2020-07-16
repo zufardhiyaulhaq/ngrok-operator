@@ -4,9 +4,15 @@ metadata:
   name: helloworld-ngrok
   namespace: helloworld
 spec:
+  # protocol used, currently support http & tcp
+  # tcp is less tested, please create issue 
+  # default is http
+  protocol: http
+
   # service section represent
   # the service name in the same namespace
   service: helloworld-service
+
   # port section represent
   # the service port in the same namespace
   port: 5000

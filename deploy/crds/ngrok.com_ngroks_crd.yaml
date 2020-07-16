@@ -40,9 +40,19 @@ spec:
           spec:
             description: NgrokSpec defines the desired state of Ngrok
             properties:
+              authtoken:
+                type: string
+              hostname:
+                type: string
               port:
                 format: int32
                 type: integer
+              protocol:
+                default: http
+                enum:
+                - http
+                - tcp
+                type: string
               service:
                 type: string
             required:

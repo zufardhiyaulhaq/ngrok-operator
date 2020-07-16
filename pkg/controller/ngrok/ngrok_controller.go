@@ -1,11 +1,12 @@
 package ngrok
 
 import (
+	"bytes"
 	"context"
 	"io/ioutil"
 	"net/http"
 	"regexp"
-	"strconv"
+	"text/template"
 	"time"
 
 	ngrokv1alpha1 "github.com/zufardhiyaulhaq/ngrok-operator/pkg/apis/ngrok/v1alpha1"
@@ -202,9 +203,7 @@ func (r *ReconcileNgrok) Reconcile(request reconcile.Request) (reconcile.Result,
 
 func newNgrokConfigMap(cr *ngrokv1alpha1.Ngrok) *corev1.ConfigMap {
 	configMapData := make(map[string]string, 0)
-	ngrokProperties := `
-web_addr: 0.0.0.0:4040`
-	configMapData["ngrok.conf"] = ngrokProperties
+	configMapData["ngrok.conf"] = generateConfiguration(cr)
 
 	labels := map[string]string{
 		"app": cr.Name,
@@ -236,7 +235,7 @@ func newNgrokPod(cr *ngrokv1alpha1.Ngrok) *corev1.Pod {
 				{
 					Name:    "ngrok",
 					Image:   "wernight/ngrok",
-					Command: []string{"ngrok", "http", "--config", "/ngrok/ngrok.conf", cr.Spec.Service + ":" + strconv.FormatInt(int64(cr.Spec.Port), 10)},
+					Command: []string{"ngrok", "--config", "/ngrok/ngrok.conf", "--all"},
 					Ports: []corev1.ContainerPort{
 						{ContainerPort: ngrokPort},
 					},
@@ -262,4 +261,21 @@ func newNgrokPod(cr *ngrokv1alpha1.Ngrok) *corev1.Pod {
 			},
 		},
 	}
+}
+
+func generateConfiguration(cr *ngrokv1alpha1.Ngrok) string {
+	var output bytes.Buffer
+	tmpl := "template/configuration.tmpl"
+
+	tpl, err := template.ParseFiles(tmpl)
+	if err != nil {
+		panic(err)
+	}
+
+	err = tpl.Execute(&output, cr)
+	if err != nil {
+		panic(err)
+	}
+
+	return output.String()
 }

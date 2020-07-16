@@ -8,6 +8,17 @@ import (
 type NgrokSpec struct {
 	Service string `json:"service"`
 	Port    int32  `json:"port"`
+
+	// +kubebuilder:validation:Enum=http;tcp
+	// +kubebuilder:default:=http
+	// +optional
+	Protocol string `json:"protocol"`
+
+	// +optional
+	AuthToken string `json:"authtoken"`
+
+	// +optional
+	Hostname string `json:"hostname"`
 }
 
 // NgrokStatus defines the observed state of Ngrok

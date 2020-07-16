@@ -1,0 +1,13 @@
+web_addr: 0.0.0.0:4040
+
+{{if .Spec.AuthToken }}
+authtoken: {{ .Spec.AuthToken }}
+{{end}}
+
+tunnels:
+  app:
+    proto: {{ .Spec.Protocol }}
+    addr: {{ .Spec.Service }}:{{ .Spec.Port }}
+    {{if .Spec.AuthToken }}{{if .Spec.Hostname }}
+    hostname: {{ .Spec.Hostname }}
+    {{end}}{{end}}

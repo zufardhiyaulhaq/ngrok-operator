@@ -73,7 +73,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome, please check [CONTRIBUTING.md](https://github.com/zufardhiyaulhaq/ngrok-operator/blob/master/.github/CONTRIBUTING.md)!
 
 ## Changes
 For changes, see the [CHANGELOG.md](CHANGELOG.md).

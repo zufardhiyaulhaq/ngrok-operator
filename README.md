@@ -13,12 +13,8 @@ Ngrok operator provide developer easy access to private Kubernetes cluster for t
   - [x] custom region
   - [x] enable/disable inspection
   - [x] support HTTP auth
-  - [ ] service for ngrok object (dashboard related)
 
-### Developing ngrok-operator
-This operator build based on [operator-sdk](https://sdk.operatorframework.io/docs/install-operator-sdk/). To build this operator, you need [operator-sdk](https://sdk.operatorframework.io/docs/install-operator-sdk/).
-
-#### Installing ngrok-operator via helm
+### Installation
 Please read README.md in charts folder for more information.
 ```
 helm install ./charts --name-template ngrok-operator
@@ -78,3 +74,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+## Changes
+For changes, see the [CHANGELOG.md](CHANGELOG.md).
+
+## License
+This program is free software: you can redistribute it and/or modify it under the terms of the [MIT license](LICENSE)

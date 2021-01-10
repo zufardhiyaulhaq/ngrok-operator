@@ -17,7 +17,8 @@ Ngrok operator provide developer easy access to private Kubernetes cluster for t
 ### Installation
 Please read README.md in charts folder for more information.
 ```
-helm install ./charts --name-template ngrok-operator
+helm repo add zufardhiyaulhaq https://charts.zufardhiyaulhaq.com/
+helm install zufardhiyaulhaq/ngrok-operator --name-template ngrok-operator
 ```
 
 to insatall without crds
@@ -27,7 +28,7 @@ to insatall without crds
 
 to upgrade
 ```
-helm upgrade ngrok-operator ./charts
+helm upgrade ngrok-operator zufardhiyaulhaq/ngrok-operator
 ```
 
 ### Example

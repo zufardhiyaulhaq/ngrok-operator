@@ -2,9 +2,9 @@
 Helm chart for ngrok-operators
 
 ### Installing the charts
-From root directory of ngrok-operator. Please edit the values.yaml inside charts before applying.
 ```
-helm install ./charts --name-template ngrok-operator
+helm repo add zufardhiyaulhaq https://charts.zufardhiyaulhaq.com/
+helm install zufardhiyaulhaq/ngrok-operator --name-template ngrok-operator
 ```
 
 ### Configuration

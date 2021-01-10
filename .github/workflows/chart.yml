@@ -19,4 +19,4 @@ jobs:
     - name: Deploy
       run: |
         cd charts/releases
-        for FILE in *; do curl -X POST -u $CHART_USERNAME:$CHART_PASSWORD --data-binary "@$FILE" https://charts.zufardhiyaulhaq.com/api/charts; done
+        for FILE in *; do curl -X POST -u $CHART_USERNAME:$CHART_PASSWORD --data-binary "@$FILE" https://charts.zufardhiyaulhaq.com/api/charts && sleep 5; done

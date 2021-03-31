@@ -2,7 +2,7 @@
 <img src="./logo.png" width="200">
 </div>
 
-Ngrok operator provide developer easy access to private Kubernetes cluster for testing purpose via ngrok. Automate the creation of ngrok tunnel via CRDs!
+Ngrok operator provide developer easy access to private Kubernetes cluster for testing purpose via ngrok. Automate the creation of ngrok tunnel via CRD!
 
 ### Feature
 - [x] support HTTP

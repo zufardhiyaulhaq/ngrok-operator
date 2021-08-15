@@ -49,15 +49,11 @@ type NgrokReconciler struct {
 //+kubebuilder:rbac:groups=ngrok.com,resources=ngroks/finalizers,verbs=update
 
 func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	_ = log.FromContext(ctx)
+	log := log.FromContext(ctx)
+	log.Info("Start Ngrok Reconciler")
 
 	ngrok := &ngrokcomv1alpha1.Ngrok{}
 	err := r.Client.Get(context.TODO(), req.NamespacedName, ngrok)
-	if err != nil {
-		return ctrl.Result{}, err
-	}
-
-	err = r.SetStatus(ngrok, NGROK_STATUS_CREATING, NGROK_STATUS_URL_FETCHING)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -116,11 +112,12 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		if err != nil {
 			return ctrl.Result{}, err
 		}
-	} else {
-		return ctrl.Result{Requeue: true}, nil
 	}
 
-	err = r.SetStatus(ngrok, NGROK_STATUS_CREATED, ngrokURL)
+	ngrok.Status.Status = NGROK_STATUS_CREATED
+	ngrok.Status.URL = ngrokURL
+
+	err = r.Client.Status().Update(context.TODO(), ngrok)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -133,11 +130,4 @@ func (r *NgrokReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&ngrokcomv1alpha1.Ngrok{}).
 		Complete(r)
-}
-
-func (r *NgrokReconciler) SetStatus(ngrok *ngrokcomv1alpha1.Ngrok, status string, url string) error {
-	ngrok.Status.Status = status
-	ngrok.Status.URL = url
-
-	return r.Client.Status().Update(context.TODO(), ngrok)
 }

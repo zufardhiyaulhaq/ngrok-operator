@@ -38,6 +38,7 @@ spec:
         command:
         - /manager
         image: "{{ .Values.operator.image }}:{{ .Values.operator.tag }}"
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /healthz

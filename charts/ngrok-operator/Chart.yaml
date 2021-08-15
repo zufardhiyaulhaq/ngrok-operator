@@ -1,7 +1,7 @@
 ---
 apiVersion: v2
 name: ngrok-operator
-description: ngrok-operator for managing ngrok lifecycle
+description: Ngrok operator provide developer easy access to private Kubernetes cluster for testing purpose via ngrok. Automate the creation of ngrok tunnel via CRD!
 version: 1.0.0
 appVersion: 1.0.0
 type: application

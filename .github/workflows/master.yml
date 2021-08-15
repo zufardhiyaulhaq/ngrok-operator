@@ -19,6 +19,7 @@ jobs:
         uses: golangci/golangci-lint-action@v2
         with:
           version: v1.29
+          args: --timeout 300
   test:
     runs-on: ubuntu-latest
     steps:
@@ -46,12 +47,6 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
-        with:
-          languages: go
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
       - name: Perform SonarQube Scan
         uses: kitabisa/sonarqube-action@v1.1.0
         with:

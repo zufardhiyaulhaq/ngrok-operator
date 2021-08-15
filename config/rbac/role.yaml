@@ -1,0 +1,34 @@
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - ngrok.com
+  resources:
+  - ngroks
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ngrok.com
+  resources:
+  - ngroks/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - ngrok.com
+  resources:
+  - ngroks/status
+  verbs:
+  - get
+  - patch
+  - update

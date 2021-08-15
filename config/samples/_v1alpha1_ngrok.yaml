@@ -1,0 +1,7 @@
+apiVersion: ngrok.com/v1alpha1
+kind: Ngrok
+metadata:
+  name: ngrok-sample
+spec:
+  # Add fields here
+  foo: bar

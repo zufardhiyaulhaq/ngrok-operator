@@ -7,19 +7,19 @@ For small things like fixing typos in documentation, you can [make edits through
 ### Setup your machine
 Prerequisites:
 - make
-- [Go 1.13+](https://golang.org/doc/install)
-- [operator-sdk v0.18.1+](https://sdk.operatorframework.io/)
+- [Go 1.16](https://golang.org/doc/install)
+- [operator-sdk v1.11.0](https://sdk.operatorframework.io/)
 
 Fork and clone **[ngrok-operator](https://github.com/zufardhiyaulhaq/ngrok-operator)** repository.
 
 - deploy CRDs
 ```
-kubectl apply -f deploy/crds/ngrok.com_ngroks_crd.yaml
+kubectl apply -f config/crd/bases/ngrok.com_ngroks.yaml
 ```
 
 - Run ngrok-operator locally
 ```
-operator-sdk run local
+make install run
 ```
 
 - deploy some examples

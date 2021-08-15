@@ -1,0 +1,20 @@
+# permissions for end users to view ngroks.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ngrok-viewer-role
+rules:
+- apiGroups:
+  - ngrok.com
+  resources:
+  - ngroks
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ngrok.com
+  resources:
+  - ngroks/status
+  verbs:
+  - get

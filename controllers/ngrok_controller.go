@@ -72,6 +72,13 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		return ctrl.Result{}, err
 	}
 
+	service, err := builder.NewNgrokServiceBuilder().
+		SetConfig(ngrok).
+		Build()
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+
 	if err := controllerutil.SetControllerReference(ngrok, configmap, r.Scheme); err != nil {
 		return ctrl.Result{}, err
 	}
@@ -80,8 +87,13 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		return ctrl.Result{}, err
 	}
 
+	if err := controllerutil.SetControllerReference(ngrok, service, r.Scheme); err != nil {
+		return ctrl.Result{}, err
+	}
+
 	createdConfigMap := &corev1.ConfigMap{}
 	createdPod := &corev1.Pod{}
+	createdService := &corev1.Service{}
 
 	err = r.Client.Get(context.TODO(), types.NamespacedName{Name: configmap.Name, Namespace: configmap.Namespace}, createdConfigMap)
 	if err != nil && errors.IsNotFound(err) {
@@ -96,6 +108,16 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 	err = r.Client.Get(context.TODO(), types.NamespacedName{Name: pod.Name, Namespace: pod.Namespace}, createdPod)
 	if err != nil && errors.IsNotFound(err) {
 		err = r.Client.Create(context.TODO(), pod)
+		if err != nil {
+			return ctrl.Result{}, err
+		}
+	} else if err != nil {
+		return ctrl.Result{}, err
+	}
+
+	err = r.Client.Get(context.TODO(), types.NamespacedName{Name: service.Name, Namespace: service.Namespace}, createdService)
+	if err != nil && errors.IsNotFound(err) {
+		err = r.Client.Create(context.TODO(), service)
 		if err != nil {
 			return ctrl.Result{}, err
 		}

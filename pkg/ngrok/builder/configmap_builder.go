@@ -33,7 +33,8 @@ func (n *NgrokConfigMapBuilder) Build() (*corev1.ConfigMap, error) {
 			Name:      n.config.Name + "-cm-ngrok",
 			Namespace: n.config.Namespace,
 			Labels: map[string]string{
-				"app": n.config.Name,
+				"app":       n.config.Name,
+				"generated": "ngrok-operator",
 			},
 		},
 		Data: data,

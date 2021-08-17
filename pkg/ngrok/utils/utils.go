@@ -1,9 +1,11 @@
 package utils
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	"regexp"
+
+	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/models"
 )
 
 const NGROK_URL_REGEX = `https://.[^"]+`
@@ -47,11 +49,11 @@ func GetNgrokURL(adminAPI string) (string, error) {
 		return "", err
 	}
 
-	bodyString := string(body)
-	matcher, err := regexp.Compile(NGROK_URL_REGEX)
+	var configuration models.TunnelsConfiguration
+	err = json.Unmarshal(body, &configuration)
 	if err != nil {
 		return "", err
 	}
 
-	return matcher.FindString(bodyString), nil
+	return configuration.Tunnels[0].PublicURL, nil
 }

@@ -25,7 +25,8 @@ func (n *NgrokPodBuilder) Build() (*corev1.Pod, error) {
 			Name:      n.config.Name + "-ngrok",
 			Namespace: n.config.Namespace,
 			Labels: map[string]string{
-				"app": n.config.Name,
+				"app":       n.config.Name,
+				"generated": "ngrok-operator",
 			},
 		},
 		Spec: corev1.PodSpec{

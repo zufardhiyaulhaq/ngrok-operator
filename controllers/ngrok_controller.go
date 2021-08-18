@@ -21,11 +21,12 @@ import (
 	"time"
 
 	ngrokcomv1alpha1 "github.com/zufardhiyaulhaq/ngrok-operator/api/v1alpha1"
-	builder "github.com/zufardhiyaulhaq/ngrok-operator/pkg/ngrok/builder"
+	builder "github.com/zufardhiyaulhaq/ngrok-operator/pkg/builder"
 	corev1 "k8s.io/api/core/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/ngrok/utils"
+	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/handler"
+	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/utils"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -41,7 +42,8 @@ const NGROK_STATUS_URL_FETCHING = "Fetching"
 // NgrokReconciler reconciles a Ngrok object
 type NgrokReconciler struct {
 	client.Client
-	Scheme *runtime.Scheme
+	Scheme        *runtime.Scheme
+	StatusHandler handler.StatusHandler
 }
 
 //+kubebuilder:rbac:groups=ngrok.com,resources=ngroks,verbs=get;list;watch;create;update;patch;delete
@@ -126,18 +128,33 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 	}
 
 	time.Sleep(30 * time.Second)
-	var ngrokURL string
 
-	if createdPod.Status.PodIP != "" {
-		adminAPI := "http://" + createdPod.Status.PodIP + ":4040/api/tunnels"
-		ngrokURL, err = utils.GetNgrokURL(adminAPI)
+	if createdPod.Status.Phase != corev1.PodRunning {
+		return ctrl.Result{Requeue: true}, nil
+	}
+
+	url, err := utils.GetNgrokURL("http://" + service.Name + "." + service.Namespace + ".svc" + "/api/tunnels")
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+
+	// get the status from ngrok URL
+	// if it's not running, recreate the pod
+	status, err := r.StatusHandler.Running(url)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+	if !status {
+		err := r.Client.Delete(context.TODO(), createdPod)
 		if err != nil {
 			return ctrl.Result{}, err
 		}
+
+		return ctrl.Result{Requeue: true}, nil
 	}
 
 	ngrok.Status.Status = NGROK_STATUS_CREATED
-	ngrok.Status.URL = ngrokURL
+	ngrok.Status.URL = url
 
 	err = r.Client.Status().Update(context.TODO(), ngrok)
 	if err != nil {

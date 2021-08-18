@@ -33,7 +33,7 @@ func (n *NgrokPodBuilder) Build() (*corev1.Pod, error) {
 			Containers: []corev1.Container{
 				{
 					Name:    "ngrok",
-					Image:   "wernight/ngrok",
+					Image:   "zufardhiyaulhaq/ngrok:v1.0.0",
 					Command: []string{"ngrok", "start", "--config", "/ngrok/ngrok.conf", "--all"},
 					Ports: []corev1.ContainerPort{
 						{ContainerPort: int32(4040)},

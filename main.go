@@ -33,6 +33,7 @@ import (
 
 	ngrokcomv1alpha1 "github.com/zufardhiyaulhaq/ngrok-operator/api/v1alpha1"
 	"github.com/zufardhiyaulhaq/ngrok-operator/controllers"
+	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/handler"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -79,8 +80,9 @@ func main() {
 	}
 
 	if err = (&controllers.NgrokReconciler{
-		Client: mgr.GetClient(),
-		Scheme: mgr.GetScheme(),
+		Client:        mgr.GetClient(),
+		Scheme:        mgr.GetScheme(),
+		StatusHandler: handler.NewHHTPStatusHandler(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Ngrok")
 		os.Exit(1)

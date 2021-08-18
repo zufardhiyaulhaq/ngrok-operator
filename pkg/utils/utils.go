@@ -36,8 +36,8 @@ tunnels:
     {{end}}
 `
 
-func GetNgrokURL(adminAPI string) (string, error) {
-	response, err := http.Get(adminAPI)
+func GetNgrokURL(api string) (string, error) {
+	response, err := http.Get(api)
 	if err != nil {
 		return "", err
 	}

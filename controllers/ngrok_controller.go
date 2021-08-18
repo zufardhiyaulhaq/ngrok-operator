@@ -57,7 +57,7 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 	ngrok := &ngrokcomv1alpha1.Ngrok{}
 	err := r.Client.Get(context.TODO(), req.NamespacedName, ngrok)
 	if err != nil {
-		return ctrl.Result{}, err
+		return ctrl.Result{}, nil
 	}
 
 	configmap, err := builder.NewNgrokConfigMapBuilder().

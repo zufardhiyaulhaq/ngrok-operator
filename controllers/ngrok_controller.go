@@ -31,6 +31,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 )
@@ -139,8 +140,6 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		return ctrl.Result{}, err
 	}
 
-	time.Sleep(30 * time.Second)
-
 	log.Info("check pod running")
 	if createdPod.Status.Phase != corev1.PodRunning {
 		return ctrl.Result{RequeueAfter: time.Second * 10}, nil
@@ -166,7 +165,7 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 			return ctrl.Result{}, err
 		}
 
-		return ctrl.Result{Requeue: true}, nil
+		return ctrl.Result{RequeueAfter: time.Second * 10}, nil
 	}
 
 	log.Info("get ngrok")
@@ -186,13 +185,16 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 	}
 
 	// rather than finished the process and reconcile when object changed
-	// force to reconcile every 30 seconds
-	return ctrl.Result{RequeueAfter: time.Second * 10}, nil
+	// force to reconcile every 60 seconds
+	return ctrl.Result{RequeueAfter: time.Second * 60}, nil
 }
 
 // SetupWithManager sets up the controller with the Manager.
 func (r *NgrokReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&ngrokcomv1alpha1.Ngrok{}).
+		WithOptions(controller.Options{
+			MaxConcurrentReconciles: 10,
+		}).
 		Complete(r)
 }

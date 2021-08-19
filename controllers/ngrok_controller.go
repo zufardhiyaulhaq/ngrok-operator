@@ -139,7 +139,7 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		return ctrl.Result{}, err
 	}
 
-	time.Sleep(60 * time.Second)
+	time.Sleep(30 * time.Second)
 
 	log.Info("check pod running")
 	if createdPod.Status.Phase != corev1.PodRunning {
@@ -187,7 +187,7 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 
 	// rather than finished the process and reconcile when object changed
 	// force to reconcile every 30 seconds
-	return ctrl.Result{RequeueAfter: time.Second * 30}, nil
+	return ctrl.Result{RequeueAfter: time.Second * 10}, nil
 }
 
 // SetupWithManager sets up the controller with the Manager.

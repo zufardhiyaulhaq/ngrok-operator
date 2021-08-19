@@ -2,6 +2,7 @@ package utils
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -58,6 +59,10 @@ func GetNgrokURL(api string) (string, error) {
 	err = json.Unmarshal(body, &configuration)
 	if err != nil {
 		return "", err
+	}
+
+	if len(configuration.Tunnels) == 0 {
+		return "", fmt.Errorf("configuration tunnels empty")
 	}
 
 	return configuration.Tunnels[0].PublicURL, nil

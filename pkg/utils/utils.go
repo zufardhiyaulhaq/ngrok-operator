@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/models"
 )
@@ -37,7 +38,11 @@ tunnels:
 `
 
 func GetNgrokURL(api string) (string, error) {
-	response, err := http.Get(api)
+	client := http.Client{
+		Timeout: 5 * time.Second,
+	}
+
+	response, err := client.Get(api)
 	if err != nil {
 		return "", err
 	}

@@ -4,9 +4,6 @@ metadata:
   name: helloworld-ngrok
   namespace: helloworld
 spec:
-  # ngrok authtoken
-  authtoken: 7YW82esn4XP2XoewRMDDt_6VcVbjxeWEnsbLWpRoTNV
-
   # protocol used, currently support http & tcp
   # tcp is less tested, please create issue 
   # default is http

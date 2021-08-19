@@ -22,11 +22,11 @@ import (
 
 	ngrokcomv1alpha1 "github.com/zufardhiyaulhaq/ngrok-operator/api/v1alpha1"
 	builder "github.com/zufardhiyaulhaq/ngrok-operator/pkg/builder"
+	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/utils"
 	corev1 "k8s.io/api/core/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/handler"
-	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/utils"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -127,10 +127,10 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		return ctrl.Result{}, err
 	}
 
-	time.Sleep(30 * time.Second)
+	time.Sleep(60 * time.Second)
 
 	if createdPod.Status.Phase != corev1.PodRunning {
-		return ctrl.Result{Requeue: true}, nil
+		return ctrl.Result{RequeueAfter: time.Second * 10}, nil
 	}
 
 	url, err := utils.GetNgrokURL("http://" + service.Name + "." + service.Namespace + ".svc" + "/api/tunnels")
@@ -161,7 +161,9 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		return ctrl.Result{}, err
 	}
 
-	return ctrl.Result{}, nil
+	// rather than finished the process and reconcile when object changed
+	// force to reconcile every 30 seconds
+	return ctrl.Result{RequeueAfter: time.Second * 30}, nil
 }
 
 // SetupWithManager sets up the controller with the Manager.

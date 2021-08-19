@@ -11,8 +11,6 @@ func (h HTTPStatusHandler) Running(domain string) (bool, error) {
 		return false, err
 	}
 
-	defer response.Body.Close()
-
 	if response.StatusCode == http.StatusPaymentRequired {
 		return false, nil
 	}

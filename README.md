@@ -1,8 +1,8 @@
 # ngrok-operator
 
-Ngrok operator provide developer easy access to private Kubernetes cluster for testing purpose via ngrok. Automate the creation of ngrok tunnel via CRD!
+Ngrok operator provide developer easy access to private Kubernetes cluster for testing purpose via ngrok. Automate the creation of ngrok tunnel via CRD and automatically reload ngrok session when expired!
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square) [![made with Go](https://img.shields.io/badge/made%20with-Go-brightgreen)](http://golang.org) [![Github master branch build](https://img.shields.io/github/workflow/status/zufardhiyaulhaq/ngrok-operator/Master)](https://github.com/zufardhiyaulhaq/ngrok-operator/actions/workflows/master.yml) [![GitHub issues](https://img.shields.io/github/issues/zufardhiyaulhaq/ngrok-operator)](https://github.com/zufardhiyaulhaq/ngrok-operator/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/zufardhiyaulhaq/ngrok-operator)](https://github.com/zufardhiyaulhaq/ngrok-operator/pulls)
+![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.1.0](https://img.shields.io/badge/AppVersion-1.1.0-informational?style=flat-square) [![made with Go](https://img.shields.io/badge/made%20with-Go-brightgreen)](http://golang.org) [![Github master branch build](https://img.shields.io/github/workflow/status/zufardhiyaulhaq/ngrok-operator/Master)](https://github.com/zufardhiyaulhaq/ngrok-operator/actions/workflows/master.yml) [![GitHub issues](https://img.shields.io/github/issues/zufardhiyaulhaq/ngrok-operator)](https://github.com/zufardhiyaulhaq/ngrok-operator/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/zufardhiyaulhaq/ngrok-operator)](https://github.com/zufardhiyaulhaq/ngrok-operator/pulls)
 
 ## Installing
 
@@ -41,5 +41,5 @@ https://fa03f71fbe18.ngrok.io/hello
 |-----|------|---------|-------------|
 | operator.image | string | `"zufardhiyaulhaq/ngrok-operator"` |  |
 | operator.replica | int | `1` |  |
-| operator.tag | string | `"v1.0.0"` |  |
+| operator.tag | string | `"v1.1.0"` |  |
 

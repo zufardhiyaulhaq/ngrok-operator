@@ -21,15 +21,17 @@ import (
 	"time"
 
 	ngrokcomv1alpha1 "github.com/zufardhiyaulhaq/ngrok-operator/api/v1alpha1"
-	builder "github.com/zufardhiyaulhaq/ngrok-operator/pkg/ngrok/builder"
+	builder "github.com/zufardhiyaulhaq/ngrok-operator/pkg/builder"
+	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/utils"
 	corev1 "k8s.io/api/core/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/ngrok/utils"
+	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/handler"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 )
@@ -41,7 +43,8 @@ const NGROK_STATUS_URL_FETCHING = "Fetching"
 // NgrokReconciler reconciles a Ngrok object
 type NgrokReconciler struct {
 	client.Client
-	Scheme *runtime.Scheme
+	Scheme        *runtime.Scheme
+	StatusHandler handler.StatusHandler
 }
 
 //+kubebuilder:rbac:groups=ngrok.com,resources=ngroks,verbs=get;list;watch;create;update;patch;delete
@@ -55,9 +58,10 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 	ngrok := &ngrokcomv1alpha1.Ngrok{}
 	err := r.Client.Get(context.TODO(), req.NamespacedName, ngrok)
 	if err != nil {
-		return ctrl.Result{}, err
+		return ctrl.Result{}, nil
 	}
 
+	log.Info("Build config map")
 	configmap, err := builder.NewNgrokConfigMapBuilder().
 		SetConfig(ngrok).
 		Build()
@@ -65,6 +69,7 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		return ctrl.Result{}, err
 	}
 
+	log.Info("Build pod")
 	pod, err := builder.NewNgrokPodBuilder().
 		SetConfig(ngrok).
 		Build()
@@ -72,6 +77,7 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		return ctrl.Result{}, err
 	}
 
+	log.Info("Build service")
 	service, err := builder.NewNgrokServiceBuilder().
 		SetConfig(ngrok).
 		Build()
@@ -79,14 +85,17 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		return ctrl.Result{}, err
 	}
 
+	log.Info("set reference config map")
 	if err := controllerutil.SetControllerReference(ngrok, configmap, r.Scheme); err != nil {
 		return ctrl.Result{}, err
 	}
 
+	log.Info("set reference pod")
 	if err := controllerutil.SetControllerReference(ngrok, pod, r.Scheme); err != nil {
 		return ctrl.Result{}, err
 	}
 
+	log.Info("set reference service")
 	if err := controllerutil.SetControllerReference(ngrok, service, r.Scheme); err != nil {
 		return ctrl.Result{}, err
 	}
@@ -95,8 +104,10 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 	createdPod := &corev1.Pod{}
 	createdService := &corev1.Service{}
 
+	log.Info("get config map")
 	err = r.Client.Get(context.TODO(), types.NamespacedName{Name: configmap.Name, Namespace: configmap.Namespace}, createdConfigMap)
 	if err != nil && errors.IsNotFound(err) {
+		log.Info("create config map")
 		err = r.Client.Create(context.TODO(), configmap)
 		if err != nil {
 			return ctrl.Result{}, err
@@ -105,8 +116,10 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		return ctrl.Result{}, err
 	}
 
+	log.Info("get pod")
 	err = r.Client.Get(context.TODO(), types.NamespacedName{Name: pod.Name, Namespace: pod.Namespace}, createdPod)
 	if err != nil && errors.IsNotFound(err) {
+		log.Info("create pod")
 		err = r.Client.Create(context.TODO(), pod)
 		if err != nil {
 			return ctrl.Result{}, err
@@ -115,8 +128,10 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		return ctrl.Result{}, err
 	}
 
+	log.Info("get service")
 	err = r.Client.Get(context.TODO(), types.NamespacedName{Name: service.Name, Namespace: service.Namespace}, createdService)
 	if err != nil && errors.IsNotFound(err) {
+		log.Info("create service")
 		err = r.Client.Create(context.TODO(), service)
 		if err != nil {
 			return ctrl.Result{}, err
@@ -125,31 +140,61 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		return ctrl.Result{}, err
 	}
 
-	time.Sleep(30 * time.Second)
-	var ngrokURL string
+	log.Info("check pod running")
+	if createdPod.Status.Phase != corev1.PodRunning {
+		return ctrl.Result{RequeueAfter: time.Second * 10}, nil
+	}
 
-	if createdPod.Status.PodIP != "" {
-		adminAPI := "http://" + createdPod.Status.PodIP + ":4040/api/tunnels"
-		ngrokURL, err = utils.GetNgrokURL(adminAPI)
+	log.Info("get ngrok url")
+	url, err := utils.GetNgrokURL("http://" + service.Name + "." + service.Namespace + ".svc" + "/api/tunnels")
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+
+	// get the status from ngrok URL
+	// if it's not running, recreate the pod
+	log.Info("get status ngrok")
+	status, err := r.StatusHandler.Running(url)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+	if !status {
+		log.Info("delete ngrok pod to restart session")
+		err := r.Client.Delete(context.TODO(), createdPod)
 		if err != nil {
 			return ctrl.Result{}, err
 		}
+
+		return ctrl.Result{RequeueAfter: time.Second * 10}, nil
+	}
+
+	log.Info("get ngrok")
+	ngrok = &ngrokcomv1alpha1.Ngrok{}
+	err = r.Client.Get(context.TODO(), req.NamespacedName, ngrok)
+	if err != nil {
+		return ctrl.Result{}, nil
 	}
 
 	ngrok.Status.Status = NGROK_STATUS_CREATED
-	ngrok.Status.URL = ngrokURL
+	ngrok.Status.URL = url
 
+	log.Info("update ngrok status")
 	err = r.Client.Status().Update(context.TODO(), ngrok)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
 
-	return ctrl.Result{}, nil
+	// rather than finished the process and reconcile when object changed
+	// force to reconcile every 60 seconds
+	return ctrl.Result{RequeueAfter: time.Second * 60}, nil
 }
 
 // SetupWithManager sets up the controller with the Manager.
 func (r *NgrokReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&ngrokcomv1alpha1.Ngrok{}).
+		WithOptions(controller.Options{
+			MaxConcurrentReconciles: 10,
+		}).
 		Complete(r)
 }

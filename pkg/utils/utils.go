@@ -2,8 +2,10 @@ package utils
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/models"
 )
@@ -36,8 +38,12 @@ tunnels:
     {{end}}
 `
 
-func GetNgrokURL(adminAPI string) (string, error) {
-	response, err := http.Get(adminAPI)
+func GetNgrokURL(api string) (string, error) {
+	client := http.Client{
+		Timeout: 5 * time.Second,
+	}
+
+	response, err := client.Get(api)
 	if err != nil {
 		return "", err
 	}
@@ -53,6 +59,10 @@ func GetNgrokURL(adminAPI string) (string, error) {
 	err = json.Unmarshal(body, &configuration)
 	if err != nil {
 		return "", err
+	}
+
+	if len(configuration.Tunnels) == 0 {
+		return "", fmt.Errorf("configuration tunnels empty")
 	}
 
 	return configuration.Tunnels[0].PublicURL, nil

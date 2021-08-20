@@ -21,24 +21,24 @@ type TunnelConfig struct {
 
 type TunnelMetrics struct {
 	Conns struct {
-		Count  int `json:"count"`
-		Gauge  int `json:"gauge"`
-		Rate1  int `json:"rate1"`
-		Rate5  int `json:"rate5"`
-		Rate15 int `json:"rate15"`
-		P50    int `json:"p50"`
-		P90    int `json:"p90"`
-		P95    int `json:"p95"`
-		P99    int `json:"p99"`
+		Count  float64 `json:"count"`
+		Gauge  float64 `json:"gauge"`
+		Rate1  float64 `json:"rate1"`
+		Rate5  float64 `json:"rate5"`
+		Rate15 float64 `json:"rate15"`
+		P50    float64 `json:"p50"`
+		P90    float64 `json:"p90"`
+		P95    float64 `json:"p95"`
+		P99    float64 `json:"p99"`
 	} `json:"conns"`
 	HTTP struct {
-		Count  int `json:"count"`
-		Rate1  int `json:"rate1"`
-		Rate5  int `json:"rate5"`
-		Rate15 int `json:"rate15"`
-		P50    int `json:"p50"`
-		P90    int `json:"p90"`
-		P95    int `json:"p95"`
-		P99    int `json:"p99"`
+		Count  float64 `json:"count"`
+		Rate1  float64 `json:"rate1"`
+		Rate5  float64 `json:"rate5"`
+		Rate15 float64 `json:"rate15"`
+		P50    float64 `json:"p50"`
+		P90    float64 `json:"p90"`
+		P95    float64 `json:"p95"`
+		P99    float64 `json:"p99"`
 	} `json:"http"`
 }

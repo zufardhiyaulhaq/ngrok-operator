@@ -49,10 +49,19 @@ spec:
                 type: string
               authtoken:
                 type: string
+              authtoken_type:
+                default: plain
+                enum:
+                - plain
+                - secret
+                type: string
               hostname:
                 type: string
               inspect:
                 default: false
+                enum:
+                - true
+                - false
                 type: boolean
               port:
                 format: int32

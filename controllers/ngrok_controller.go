@@ -18,15 +18,17 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	ngrokcomv1alpha1 "github.com/zufardhiyaulhaq/ngrok-operator/api/v1alpha1"
 	builder "github.com/zufardhiyaulhaq/ngrok-operator/pkg/builder"
-	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/utils"
+
 	corev1 "k8s.io/api/core/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/handler"
+	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/utils"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -36,9 +38,14 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log"
 )
 
-const NGROK_STATUS_CREATING = "Creating"
-const NGROK_STATUS_CREATED = "Created"
-const NGROK_STATUS_URL_FETCHING = "Fetching"
+const (
+	AUTH_TOKEN_TYPE_PLAIN  = "plain"
+	AUTH_TOKEN_TYPE_SECRET = "secret"
+
+	NGROK_STATUS_CREATING     = "Creating"
+	NGROK_STATUS_CREATED      = "Created"
+	NGROK_STATUS_URL_FETCHING = "Fetching"
+)
 
 // NgrokReconciler reconciles a Ngrok object
 type NgrokReconciler struct {
@@ -61,9 +68,43 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		return ctrl.Result{}, nil
 	}
 
+	name := ngrok.Name
+	namespace := ngrok.Namespace
+	spec := ngrok.Spec.DeepCopy()
+
+	if spec.AuthTokenType == AUTH_TOKEN_TYPE_SECRET {
+		secret := &corev1.Secret{}
+
+		err := r.Client.Get(context.TODO(), types.NamespacedName{Name: spec.AuthToken, Namespace: namespace}, secret)
+		if err != nil && errors.IsNotFound(err) {
+			log.Error(err, "cannot find Secret")
+			return ctrl.Result{}, err
+		} else if err != nil {
+			return ctrl.Result{}, err
+		}
+
+		base64AuthToken, ok := secret.Data["authToken"]
+		if !ok {
+			log.Error(fmt.Errorf("cannot find key"), "cannot find key authToken")
+			return ctrl.Result{}, err
+		}
+
+		spec.AuthToken = string(base64AuthToken)
+	}
+
+	log.Info("Build configuration")
+	configuration, err := builder.NewNgrokConfigurationBuilder(r.Client).
+		SetSpec(spec).
+		Build()
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+
 	log.Info("Build config map")
 	configmap, err := builder.NewNgrokConfigMapBuilder().
-		SetConfig(ngrok).
+		SetConfig(configuration).
+		SetName(name).
+		SetNamespace(namespace).
 		Build()
 	if err != nil {
 		return ctrl.Result{}, err
@@ -71,7 +112,8 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 
 	log.Info("Build pod")
 	pod, err := builder.NewNgrokPodBuilder().
-		SetConfig(ngrok).
+		SetName(name).
+		SetNamespace(namespace).
 		Build()
 	if err != nil {
 		return ctrl.Result{}, err
@@ -79,7 +121,8 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 
 	log.Info("Build service")
 	service, err := builder.NewNgrokServiceBuilder().
-		SetConfig(ngrok).
+		SetName(name).
+		SetNamespace(namespace).
 		Build()
 	if err != nil {
 		return ctrl.Result{}, err

@@ -1,39 +1,45 @@
 package builder
 
 import (
-	ngrokcomv1alpha1 "github.com/zufardhiyaulhaq/ngrok-operator/api/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 type NgrokConfigMapBuilder struct {
-	config *ngrokcomv1alpha1.Ngrok
+	Name      string
+	Namespace string
+	Config    string
 }
 
 func NewNgrokConfigMapBuilder() *NgrokConfigMapBuilder {
 	return &NgrokConfigMapBuilder{}
 }
 
-func (n *NgrokConfigMapBuilder) SetConfig(config *ngrokcomv1alpha1.Ngrok) *NgrokConfigMapBuilder {
-	n.config = config
+func (n *NgrokConfigMapBuilder) SetConfig(config string) *NgrokConfigMapBuilder {
+	n.Config = config
+	return n
+}
+
+func (n *NgrokConfigMapBuilder) SetName(name string) *NgrokConfigMapBuilder {
+	n.Name = name
+	return n
+}
+
+func (n *NgrokConfigMapBuilder) SetNamespace(namespace string) *NgrokConfigMapBuilder {
+	n.Namespace = namespace
 	return n
 }
 
 func (n *NgrokConfigMapBuilder) Build() (*corev1.ConfigMap, error) {
 	data := make(map[string]string)
 
-	config, err := n.config.GenerateConfiguration()
-	if err != nil {
-		return nil, err
-	}
-
-	data["ngrok.conf"] = config
+	data["ngrok.conf"] = n.Config
 	configMap := &corev1.ConfigMap{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      n.config.Name + "-cm-ngrok",
-			Namespace: n.config.Namespace,
+			Name:      n.Name + "-cm-ngrok",
+			Namespace: n.Namespace,
 			Labels: map[string]string{
-				"app":       n.config.Name,
+				"app":       n.Name,
 				"generated": "ngrok-operator",
 			},
 		},

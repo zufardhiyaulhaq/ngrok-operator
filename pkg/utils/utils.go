@@ -12,28 +12,28 @@ import (
 
 const NGROK_URL_REGEX = `https://.[^"]+`
 const TMPL = `web_addr: 0.0.0.0:4040
-{{if .Spec.AuthToken }}
-authtoken: {{ .Spec.AuthToken }}
+{{if .AuthToken }}
+authtoken: {{ .AuthToken }}
 {{end}}
-{{if .Spec.Region }}
-region: {{ .Spec.Region }}
+{{if .Region }}
+region: {{ .Region }}
 {{end}}
 tunnels:
   app:
-    proto: {{ .Spec.Protocol }}
-    addr: {{ .Spec.Service }}:{{ .Spec.Port }}
-    {{if eq .Spec.Protocol "http"}}
-    inspect: {{ .Spec.Inspect }}
-    {{if .Spec.Auth }}
-    auth: {{ .Spec.Auth }}
+    proto: {{ .Protocol }}
+    addr: {{ .Service }}:{{ .Port }}
+    {{if eq .Protocol "http"}}
+    inspect: {{ .Inspect }}
+    {{if .Auth }}
+    auth: {{ .Auth }}
     {{ end }}
-    {{if .Spec.AuthToken }}{{if .Spec.Hostname }}
-    hostname: {{ .Spec.Hostname }}
+    {{if .AuthToken }}{{if .Hostname }}
+    hostname: {{ .Hostname }}
     {{end}}{{end}}
     {{end}}
-    {{if eq .Spec.Protocol "tcp"}}
-    {{if .Spec.AuthToken }}{{if .Spec.Hostname }}
-    remote_addr: {{ .Spec.Hostname }}
+    {{if eq .Protocol "tcp"}}
+    {{if .AuthToken }}{{if .RemoteAddr }}
+    remote_addr: {{ .RemoteAddr }}
     {{end}}{{end}}
     {{end}}
 `

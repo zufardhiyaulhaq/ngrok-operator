@@ -17,12 +17,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"bytes"
-	"html/template"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
-	"github.com/zufardhiyaulhaq/ngrok-operator/pkg/utils"
 )
 
 // NgrokSpec defines the desired state of Ngrok
@@ -38,6 +33,11 @@ type NgrokSpec struct {
 	// +optional
 	AuthToken string `json:"authtoken"`
 
+	// +kubebuilder:validation:Enum=plain;secret
+	// +kubebuilder:default:=plain
+	// +optional
+	AuthTokenType string `json:"authtoken_type"`
+
 	// +optional
 	Auth string `json:"auth"`
 
@@ -51,6 +51,7 @@ type NgrokSpec struct {
 	// +optional
 	Region string `json:"region"`
 
+	// +kubebuilder:validation:Enum=true;false
 	// +kubebuilder:default:=false
 	// +optional
 	Inspect bool `json:"inspect"`
@@ -73,22 +74,6 @@ type Ngrok struct {
 
 	Spec   NgrokSpec   `json:"spec,omitempty"`
 	Status NgrokStatus `json:"status,omitempty"`
-}
-
-func (n *Ngrok) GenerateConfiguration() (string, error) {
-	var configuration bytes.Buffer
-
-	templateEngine, err := template.New("ngrok").Parse(utils.TMPL)
-	if err != nil {
-		return "", err
-	}
-
-	err = templateEngine.Execute(&configuration, &n)
-	if err != nil {
-		return "", err
-	}
-
-	return configuration.String(), nil
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

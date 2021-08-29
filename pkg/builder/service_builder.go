@@ -1,38 +1,43 @@
 package builder
 
 import (
-	ngrokcomv1alpha1 "github.com/zufardhiyaulhaq/ngrok-operator/api/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 )
 
 type NgrokServiceBuilder struct {
-	config *ngrokcomv1alpha1.Ngrok
+	Name      string
+	Namespace string
 }
 
 func NewNgrokServiceBuilder() *NgrokServiceBuilder {
 	return &NgrokServiceBuilder{}
 }
 
-func (n *NgrokServiceBuilder) SetConfig(config *ngrokcomv1alpha1.Ngrok) *NgrokServiceBuilder {
-	n.config = config
+func (n *NgrokServiceBuilder) SetName(name string) *NgrokServiceBuilder {
+	n.Name = name
+	return n
+}
+
+func (n *NgrokServiceBuilder) SetNamespace(namespace string) *NgrokServiceBuilder {
+	n.Namespace = namespace
 	return n
 }
 
 func (n *NgrokServiceBuilder) Build() (*corev1.Service, error) {
 	Service := &corev1.Service{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      n.config.Name + "-ngrok",
-			Namespace: n.config.Namespace,
+			Name:      n.Name + "-ngrok",
+			Namespace: n.Namespace,
 			Labels: map[string]string{
-				"app":       n.config.Name,
+				"app":       n.Name,
 				"generated": "ngrok-operator",
 			},
 		},
 		Spec: corev1.ServiceSpec{
 			Selector: map[string]string{
-				"app":       n.config.Name,
+				"app":       n.Name,
 				"generated": "ngrok-operator",
 			},
 			Ports: []corev1.ServicePort{

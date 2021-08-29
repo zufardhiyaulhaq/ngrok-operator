@@ -7,6 +7,10 @@ spec:
   # ngrok authtoken
   authtoken: your-auth-token
 
+  # type of authtoken
+  # plain or secret
+  authtoken_type: plain
+
   # protocol used, currently support http & tcp
   # tcp is less tested, please create issue 
   # if there is an issue with tcp

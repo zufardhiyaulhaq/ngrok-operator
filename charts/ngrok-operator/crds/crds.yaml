@@ -64,9 +64,10 @@ spec:
                 - false
                 type: boolean
               podSpec:
+                default:
+                  image: zufardhiyaulhaq/ngrok
                 properties:
                   image:
-                    default: zufardhiyaulhaq/ngrok
                     type: string
                 type: object
               port:

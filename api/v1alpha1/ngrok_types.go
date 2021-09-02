@@ -56,12 +56,12 @@ type NgrokSpec struct {
 	// +optional
 	Inspect bool `json:"inspect"`
 
+	// +kubebuilder:default:={image: zufardhiyaulhaq/ngrok}
 	// +optional
 	PodSpec PodSpec `json:"podSpec"`
 }
 
 type PodSpec struct {
-	// +kubebuilder:default:="zufardhiyaulhaq/ngrok"
 	// +optional
 	Image string `json:"image"`
 }

@@ -16,6 +16,3 @@ spec:
   # port section represent
   # the service port in the same namespace
   port: 5000
-
-  podSpec:
-    image: zufardhiyaulhaq/ngrok

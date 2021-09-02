@@ -1,7 +1,7 @@
 apiVersion: ngrok.com/v1alpha1
 kind: Ngrok
 metadata:
-  name: helloworld-ngrok
+  name: ngrok-helloworld
   namespace: helloworld
 spec:
   # protocol used, currently support http & tcp
@@ -16,3 +16,6 @@ spec:
   # port section represent
   # the service port in the same namespace
   port: 5000
+
+  podSpec:
+    image: zufardhiyaulhaq/ngrok

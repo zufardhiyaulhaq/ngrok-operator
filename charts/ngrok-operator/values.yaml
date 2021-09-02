@@ -5,3 +5,11 @@ operator:
   tag: "v1.1.0"
   # number of replica for deployment
   replica: 1
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 100Mi
+  requests:
+    cpu: 100m
+    memory: 20Mi

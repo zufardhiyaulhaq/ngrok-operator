@@ -55,6 +55,15 @@ type NgrokSpec struct {
 	// +kubebuilder:default:=false
 	// +optional
 	Inspect bool `json:"inspect"`
+
+	// +kubebuilder:default:={image: zufardhiyaulhaq/ngrok}
+	// +optional
+	PodSpec PodSpec `json:"podSpec"`
+}
+
+type PodSpec struct {
+	// +optional
+	Image string `json:"image"`
 }
 
 // NgrokStatus defines the observed state of Ngrok

@@ -114,6 +114,7 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 	pod, err := builder.NewNgrokPodBuilder().
 		SetName(name).
 		SetNamespace(namespace).
+		SetImage(spec.PodSpec.Image).
 		Build()
 	if err != nil {
 		return ctrl.Result{}, err

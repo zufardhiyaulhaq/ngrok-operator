@@ -8,6 +8,7 @@ import (
 type NgrokPodBuilder struct {
 	Name      string
 	Namespace string
+	Image     string
 }
 
 func NewNgrokPodBuilder() *NgrokPodBuilder {
@@ -21,6 +22,11 @@ func (n *NgrokPodBuilder) SetName(name string) *NgrokPodBuilder {
 
 func (n *NgrokPodBuilder) SetNamespace(namespace string) *NgrokPodBuilder {
 	n.Namespace = namespace
+	return n
+}
+
+func (n *NgrokPodBuilder) SetImage(image string) *NgrokPodBuilder {
+	n.Image = image
 	return n
 }
 
@@ -38,7 +44,7 @@ func (n *NgrokPodBuilder) Build() (*corev1.Pod, error) {
 			Containers: []corev1.Container{
 				{
 					Name:    "ngrok",
-					Image:   "zufardhiyaulhaq/ngrok:v1.0.0",
+					Image:   n.Image,
 					Command: []string{"ngrok", "start", "--config", "/ngrok/ngrok.conf", "--all"},
 					Ports: []corev1.ContainerPort{
 						{ContainerPort: int32(4040)},

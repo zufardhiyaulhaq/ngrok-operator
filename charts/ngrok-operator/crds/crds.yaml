@@ -55,6 +55,14 @@ spec:
                 - plain
                 - secret
                 type: string
+              bind_tls:
+                enum:
+                - true
+                - false
+                - both
+                type: string
+              host_header:
+                type: string
               hostname:
                 type: string
               inspect:
@@ -72,12 +80,15 @@ spec:
                 type: object
               port:
                 format: int32
+                maximum: 65535
+                minimum: 1
                 type: integer
               protocol:
                 default: http
                 enum:
                 - http
                 - tcp
+                - tls
                 type: string
               region:
                 enum:

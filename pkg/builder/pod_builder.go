@@ -39,6 +39,13 @@ func (n *NgrokPodBuilder) Build() (*corev1.Pod, error) {
 				"app":       n.Name,
 				"generated": "ngrok-operator",
 			},
+			Annotations: map[string]string{
+				"sidecar.istio.io/inject":                "false",
+				"linkerd.io/inject":                      "disabled",
+				"kuma.io/sidecar-injection":              "disabled",
+				"appmesh.k8s.aws/sidecarInjectorWebhook": "disabled",
+				"injector.nsm.nginx.com/auto-inject":     "false",
+			},
 		},
 		Spec: corev1.PodSpec{
 			Containers: []corev1.Container{

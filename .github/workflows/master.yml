@@ -92,7 +92,12 @@ jobs:
           version: "${{ matrix.kubernetes }}"
           k3d-args: --no-lb
       - name: deploy charts
-        run: helm install ngrok-operator ./charts/ngrok-operator --values ./charts/ngrok-operator/values.yaml --set operator.tag=latest
-      - run: sleep 30
-      - name: check charts installed
-        run: kubectl get pod
+        run: helm install ngrok-operator ./charts/ngrok-operator --values ./charts/ngrok-operator/values.yaml --set operator.tag=dev-ci
+      - name: deploy applications
+        run: kubectl apply -f ./examples/deployment
+      - name: deploy ngrok
+        run: kubectl apply -f ./examples/http/simple
+      - name: waiting ngrok-operator to start
+        run: sleep 180
+      - name: check ngrok object
+        run: kubectl get ngrok -A

@@ -15,23 +15,22 @@ helm install my-release zufardhiyaulhaq/ngrok-operator --values values.yaml
 ## Usage
 1. Apply some example
 ```console
-kubectl apply -f examples/nginx
-kubectl apply -f examples/helloworld/namespace.yaml
-kubectl apply -f examples/helloworld/
+kubectl apply -f examples/deployment/
+kubectl apply -f examples/http/simple/
+kubectl apply -f examples/http/full-configuration/
 ```
 2. Check ngrok object
 ```console
 kubectl get ngrok --all-namespaces
-NAMESPACE    NAME               STATUS    URL
-default      nginx-ngrok        created   https://9496e56ed0bc.ngrok.io
-default      nginx-ngrok-full   created   https://ngrok.zufardhiyaulhaq.com
-helloworld   helloworld-ngrok   created   https://d00ba8cb0b95.ngrok.io
+NAMESPACE    NAME                       STATUS    URL
+default      http-simple                created   https://9496e56ed0bc.ngrok.io
+default      http-full-configuration    created   https://ngrok.zufardhiyaulhaq.com
 ```
+
 3. access the URL
 ```console
 https://d5150f7c3588.ngrok.io
 https://ngrok.zufardhiyaulhaq.com
-https://fa03f71fbe18.ngrok.io/hello
 ```
 
 {{ template "chart.requirementsSection" . }}

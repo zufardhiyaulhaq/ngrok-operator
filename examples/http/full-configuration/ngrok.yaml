@@ -1,0 +1,56 @@
+apiVersion: ngrok.com/v1alpha1
+kind: Ngrok
+metadata:
+  name: http-full-configuration
+  namespace: default
+spec:
+  # ngrok authtoken
+  authtoken: your-auth-token
+
+  # type of authtoken
+  # plain or secret
+  authtoken_type: plain
+
+  # protocol used, currently support http & tcp
+  # tcp is less tested, please create issue 
+  # if there is an issue with tcp
+  protocol: http
+
+  # region where ngrok run
+  # refer to the docs
+  # https://ngrok.com/docs
+  region: ap
+
+  # Rewrite the HTTP Host header to this value
+  host_header: "foo.bar"
+
+  # bind an HTTPS or HTTP endpoint or both
+  bind_tls: both
+
+  # auth protect your http
+  # with user password combination
+  # <user>:<password>
+  auth: user:password
+
+  # enable inspection
+  # only works for http protocol
+  inspect: true
+
+  # this supported starting with basic plan
+  # using custom hostname require to set authtoken
+  # the behaviour when set `hostname` with free account
+  # is unknown!
+  hostname: ngrok.zufardhiyaulhaq.com
+
+  # service section represent
+  # the service name in the same namespace
+  service: nginx-service
+
+  # port section represent
+  # the service port in the same namespace
+  port: 80
+
+  # define the image for the ngrok
+  # default to zufardhiyaulhaq/ngrok:latest
+  podSpec:
+    image: zufardhiyaulhaq/ngrok:v1.0.0

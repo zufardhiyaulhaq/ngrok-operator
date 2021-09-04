@@ -39,11 +39,6 @@ spec:
   # bind an HTTPS or HTTP endpoint or both
   bind_tls: both
 
-  # auth protect your http
-  # with user password combination
-  # <user>:<password>
-  auth: user:password
-
   # enable inspection
   # only works for http protocol
   inspect: true

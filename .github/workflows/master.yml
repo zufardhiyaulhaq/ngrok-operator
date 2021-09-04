@@ -97,5 +97,7 @@ jobs:
         run: kubectl apply -f ./examples/deployment
       - name: deploy ngrok
         run: kubectl apply -f ./examples/http/simple
-      - run: sleep 180
-      - run: kubectl get ngrok -A
+      - name: waiting ngrok-operator to start
+        run: sleep 180
+      - name: check ngrok object
+        run: kubectl get ngrok -A

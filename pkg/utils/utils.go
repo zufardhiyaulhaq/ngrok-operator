@@ -29,9 +29,9 @@ tunnels:
 
     {{ if eq .Protocol "http" }}
     inspect: {{ .Inspect }}
-    {{if .Auth }}
+    {{if .AuthToken }}{{if .Auth }}
     auth: {{ .Auth }}
-    {{ end }}
+    {{ end }}{{ end }}
     {{if .HostHeader }}
     host_header: {{ .HostHeader }}
     {{ end }}

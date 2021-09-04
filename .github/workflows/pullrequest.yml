@@ -85,8 +85,8 @@ jobs:
       - name: deploy charts
         run: helm install ngrok-operator ./charts/ngrok-operator --values ./charts/ngrok-operator/values.yaml --set operator.tag=dev-ci
       - name: deploy applications
-        run: kubectl apply -f ./examples/nginx
+        run: kubectl apply -f ./examples/deployment
       - name: deploy ngrok
-        run: kubectl apply -f ./examples/simple
-      - run: sleep 120
+        run: kubectl apply -f ./examples/http/simple
+      - run: sleep 180
       - run: kubectl get ngrok -A

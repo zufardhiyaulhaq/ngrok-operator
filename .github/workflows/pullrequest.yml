@@ -84,5 +84,6 @@ jobs:
           k3d-args: --no-lb
       - name: deploy charts
         run: helm install ngrok-operator ./charts/ngrok-operator --values ./charts/ngrok-operator/values.yaml --set operator.tag=dev-ci
+      - run: sleep 30
       - name: check charts installed
-        run: sleep 30 & kubectl get pod
+        run: kubectl get pod

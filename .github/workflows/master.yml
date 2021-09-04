@@ -94,4 +94,4 @@ jobs:
       - name: deploy charts
         run: helm install ngrok-operator ./charts/ngrok-operator --values ./charts/ngrok-operator/values.yaml --set operator.tag=latest
       - name: check charts installed
-        run: kubectl get pod
+        run: sleep 30 & kubectl get pod

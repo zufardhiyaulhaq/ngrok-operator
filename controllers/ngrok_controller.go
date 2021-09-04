@@ -93,7 +93,7 @@ func (r *NgrokReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 	}
 
 	log.Info("Build configuration")
-	configuration, err := builder.NewNgrokConfigurationBuilder(r.Client).
+	configuration, err := builder.NewNgrokConfigurationBuilder().
 		SetSpec(spec).
 		Build()
 	if err != nil {

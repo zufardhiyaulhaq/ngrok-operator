@@ -11,31 +11,49 @@ import (
 )
 
 const NGROK_URL_REGEX = `https://.[^"]+`
-const TMPL = `web_addr: 0.0.0.0:4040
-{{if .AuthToken }}
+const TMPL = `
+web_addr: 0.0.0.0:4040
+
+{{ if .AuthToken }}
 authtoken: {{ .AuthToken }}
-{{end}}
-{{if .Region }}
+{{ end }}
+
+{{ if .Region }}
 region: {{ .Region }}
-{{end}}
+{{ end }}
+
 tunnels:
   app:
     proto: {{ .Protocol }}
     addr: {{ .Service }}:{{ .Port }}
-    {{if eq .Protocol "http"}}
+
+    {{ if eq .Protocol "http" }}
     inspect: {{ .Inspect }}
     {{if .Auth }}
     auth: {{ .Auth }}
     {{ end }}
+    {{if .HostHeader }}
+    host_header: {{ .HostHeader }}
+    {{ end }}
+    {{if .BindTLS }}
+    bind_tls: {{ .BindTLS }}
+    {{ end }}
     {{if .AuthToken }}{{if .Hostname }}
     hostname: {{ .Hostname }}
-    {{end}}{{end}}
-    {{end}}
-    {{if eq .Protocol "tcp"}}
-    {{if .AuthToken }}{{if .RemoteAddr }}
+    {{ end }}{{ end }}
+    {{ end }}
+
+    {{if .AuthToken }}
+    {{ if eq .Protocol "tls" }}{{if .Hostname }}
+    hostname: {{ .Hostname }}
+    {{ end }}{{ end }}
+    {{ end }}
+
+    {{if eq .Protocol "tcp" }}
+    {{if .RemoteAddr }}
     remote_addr: {{ .RemoteAddr }}
-    {{end}}{{end}}
-    {{end}}
+    {{ end }}
+    {{ end }}
 `
 
 func GetNgrokURL(api string) (string, error) {

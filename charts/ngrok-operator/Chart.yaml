@@ -2,8 +2,8 @@
 apiVersion: v2
 name: ngrok-operator
 description: Ngrok operator provide developer easy access to private Kubernetes cluster for testing purpose via ngrok. Automate the creation of ngrok tunnel via CRD and automatically reload ngrok session when expired!
-version: 1.0.0
-appVersion: 1.1.0
+version: 1.1.0
+appVersion: 1.2.0
 type: application
 home: https://github.com/zufardhiyaulhaq/ngrok-operator
 

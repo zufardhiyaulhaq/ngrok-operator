@@ -1,7 +1,7 @@
 apiVersion: ngrok.com/v1alpha1
 kind: Ngrok
 metadata:
-  name: ngrok-full-configuration
+  name: http-full-configuration
   namespace: default
 spec:
   # ngrok authtoken
@@ -20,6 +20,12 @@ spec:
   # refer to the docs
   # https://ngrok.com/docs
   region: ap
+
+  # Rewrite the HTTP Host header to this value
+  host_header: "foo.bar"
+
+  # bind an HTTPS or HTTP endpoint or both
+  bind_tls: both
 
   # auth protect your http
   # with user password combination

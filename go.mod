@@ -14,10 +14,12 @@ require (
 	github.com/golangci/ineffassign v0.0.0-20190609212857-42439a7714cc // indirect
 	github.com/golangci/prealloc v0.0.0-20180630174525-215b22d4de21 // indirect
 	github.com/klauspost/cpuid v1.2.0 // indirect
+	github.com/norwoodj/helm-docs v1.6.0 // indirect
 	github.com/onsi/ginkgo v1.16.4
 	github.com/onsi/gomega v1.13.0
 	github.com/shirou/gopsutil v0.0.0-20180427012116-c95755e4bcd7 // indirect
 	github.com/shirou/w32 v0.0.0-20160930032740-bb4de0191aa4 // indirect
+	github.com/stretchr/testify v1.7.0 // indirect
 	golang.org/x/tools v0.1.3 // indirect
 	gopkg.in/airbrake/gobrake.v2 v2.0.9 // indirect
 	gopkg.in/gemnasium/logrus-airbrake-hook.v2 v2.1.2 // indirect

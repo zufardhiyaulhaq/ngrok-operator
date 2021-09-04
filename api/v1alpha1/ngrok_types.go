@@ -17,15 +17,19 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"fmt"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // NgrokSpec defines the desired state of Ngrok
 type NgrokSpec struct {
 	Service string `json:"service"`
-	Port    int32  `json:"port"`
+	// +kubebuilder:validation:Minimum=1
+	// +kubebuilder:validation:Maximum=65535
+	Port int32 `json:"port"`
 
-	// +kubebuilder:validation:Enum=http;tcp
+	// +kubebuilder:validation:Enum=http;tcp;tls
 	// +kubebuilder:default:=http
 	// +optional
 	Protocol string `json:"protocol"`
@@ -38,8 +42,24 @@ type NgrokSpec struct {
 	// +optional
 	AuthTokenType string `json:"authtoken_type"`
 
+	// +kubebuilder:validation:Enum=us;eu;ap;au;sa;jp;in
+	// +optional
+	Region string `json:"region"`
+
 	// +optional
 	Auth string `json:"auth"`
+
+	// +optional
+	HostHeader string `json:"host_header"`
+
+	// +kubebuilder:validation:Enum=true;false;both
+	// +optional
+	BindTLS string `json:"bind_tls"`
+
+	// +kubebuilder:validation:Enum=true;false
+	// +kubebuilder:default:=false
+	// +optional
+	Inspect bool `json:"inspect"`
 
 	// +optional
 	Hostname string `json:"hostname"`
@@ -47,18 +67,29 @@ type NgrokSpec struct {
 	// +optional
 	RemoteAddr string `json:"remote_addr"`
 
-	// +kubebuilder:validation:Enum=us;eu;ap;au;sa;jp;in
-	// +optional
-	Region string `json:"region"`
-
-	// +kubebuilder:validation:Enum=true;false
-	// +kubebuilder:default:=false
-	// +optional
-	Inspect bool `json:"inspect"`
-
 	// +kubebuilder:default:={image: zufardhiyaulhaq/ngrok}
 	// +optional
 	PodSpec PodSpec `json:"podSpec"`
+}
+
+func (n *NgrokSpec) Validate() error {
+	if n.Protocol == "http" || n.Protocol == "tls" {
+		if n.Service == "" {
+			return fmt.Errorf("service invalid")
+		}
+	}
+
+	if n.AuthToken == "" && n.Protocol == "tls" {
+		return fmt.Errorf("protocol TLS only available in pro")
+	}
+
+	if n.Protocol == "tcp" {
+		if n.RemoteAddr == "" {
+			return fmt.Errorf("remote_addr invalid")
+		}
+	}
+
+	return nil
 }
 
 type PodSpec struct {

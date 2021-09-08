@@ -20,7 +20,7 @@ spec:
 apiVersion: ngrok.com/v1alpha1
 kind: Ngrok
 metadata:
-  name: http-free-full-config
+  name: http-free-full-config-01
   namespace: default
 spec:
   # protocol used, currently support http & tcp
@@ -38,6 +38,45 @@ spec:
 
   # bind an HTTPS or HTTP endpoint or both
   bind_tls: both
+
+  # enable inspection
+  # only works for http protocol
+  inspect: true
+
+  # service section represent
+  # the service name in the same namespace
+  service: nginx-service
+
+  # port section represent
+  # the service port in the same namespace
+  port: 80
+
+  # define the image for the ngrok
+  # default to zufardhiyaulhaq/ngrok:latest
+  podSpec:
+    image: zufardhiyaulhaq/ngrok
+---
+apiVersion: ngrok.com/v1alpha1
+kind: Ngrok
+metadata:
+  name: http-free-full-config-02
+  namespace: default
+spec:
+  # protocol used, currently support http & tcp
+  # tcp is less tested, please create issue 
+  # if there is an issue with tcp
+  protocol: http
+
+  # region where ngrok run
+  # refer to the docs
+  # https://ngrok.com/docs
+  region: ap
+
+  # Rewrite the HTTP Host header to this value
+  host_header: "foo.bar"
+
+  # bind an HTTPS or HTTP endpoint or both
+  bind_tls: "true"
 
   # enable inspection
   # only works for http protocol

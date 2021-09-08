@@ -57,8 +57,8 @@ spec:
                 type: string
               bind_tls:
                 enum:
-                - true
-                - false
+                - "true"
+                - "false"
                 - both
                 type: string
               host_header:

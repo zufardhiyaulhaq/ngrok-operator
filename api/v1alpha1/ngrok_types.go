@@ -52,7 +52,7 @@ type NgrokSpec struct {
 	// +optional
 	HostHeader string `json:"host_header"`
 
-	// +kubebuilder:validation:Enum=true;false;both
+	// +kubebuilder:validation:Enum="true";"false";both
 	// +optional
 	BindTLS string `json:"bind_tls"`
 

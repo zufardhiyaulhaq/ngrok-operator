@@ -48,13 +48,22 @@ see example files [here](values.yaml)
 
 File `value.yaml`
 ```yaml
-operator.image: "zufardhiyaulhaq/ngrok-operator"
-operator.replica: 1
-operator.tag: "v1.2.0"
-resources.limits.cpu: "200m"
-resources.limits.memory: "100Mi"
-resources.requests.cpu: "100m"
-resources.requests.memory: "20Mi"
+operator:
+  # image of ngrok-operator
+  image: "zufardhiyaulhaq/ngrok-operator"
+  # tag of ngrok-operator image
+  tag: "v1.2.0"
+  # number of replica for deployment
+  replica: 1
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 100Mi
+  requests:
+    cpu: 100m
+    memory: 20Mi
+```
 
 {{ template "chart.requirementsSection" . }}
 

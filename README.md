@@ -47,7 +47,7 @@ see example files [here](examples/config-install/values.yaml)
 | resources.requests.cpu | string | `"100m"` |  |
 | resources.requests.memory | string | `"20Mi"` |  |
 
-File value.yaml
+File `value.yaml`
 ```yaml
 operator.image: "zufardhiyaulhaq/ngrok-operator"
 operator.replica: 1

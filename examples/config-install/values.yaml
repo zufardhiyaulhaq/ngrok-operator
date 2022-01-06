@@ -1,0 +1,7 @@
+operator.image: "zufardhiyaulhaq/ngrok-operator"
+operator.replica: 1
+operator.tag: "v1.2.0"
+resources.limits.cpu: "200m"
+resources.limits.memory: "100Mi"
+resources.requests.cpu: "100m"
+resources.requests.memory: "20Mi"

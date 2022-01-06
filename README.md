@@ -35,7 +35,7 @@ https://ngrok.zufardhiyaulhaq.com
 ```
 
 ## Values
-see example files [here](examples/config-install/values.yaml)
+see example files [here](charts/ngrok-operator/values.yaml)
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|

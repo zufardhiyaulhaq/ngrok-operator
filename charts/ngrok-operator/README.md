@@ -35,6 +35,7 @@ https://ngrok.zufardhiyaulhaq.com
 ```
 
 ## Values
+see example files [here](values.yaml)
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -45,4 +46,14 @@ https://ngrok.zufardhiyaulhaq.com
 | resources.limits.memory | string | `"100Mi"` |  |
 | resources.requests.cpu | string | `"100m"` |  |
 | resources.requests.memory | string | `"20Mi"` |  |
+
+File `value.yaml`
+```yaml
+operator.image: "zufardhiyaulhaq/ngrok-operator"
+operator.replica: 1
+operator.tag: "v1.2.0"
+resources.limits.cpu: "200m"
+resources.limits.memory: "100Mi"
+resources.requests.cpu: "100m"
+resources.requests.memory: "20Mi"
 

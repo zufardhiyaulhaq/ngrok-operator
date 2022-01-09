@@ -35,6 +35,7 @@ https://ngrok.zufardhiyaulhaq.com
 ```
 
 ## Values
+see example files [here](charts/ngrok-operator/values.yaml)
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -45,4 +46,23 @@ https://ngrok.zufardhiyaulhaq.com
 | resources.limits.memory | string | `"100Mi"` |  |
 | resources.requests.cpu | string | `"100m"` |  |
 | resources.requests.memory | string | `"20Mi"` |  |
+
+File `value.yaml`
+```yaml
+operator:
+  # image of ngrok-operator
+  image: "zufardhiyaulhaq/ngrok-operator"
+  # tag of ngrok-operator image
+  tag: "v1.2.0"
+  # number of replica for deployment
+  replica: 1
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 100Mi
+  requests:
+    cpu: 100m
+    memory: 20Mi
+```
 

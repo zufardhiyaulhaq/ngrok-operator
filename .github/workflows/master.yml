@@ -16,10 +16,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Lint golang code
-        uses: golangci/golangci-lint-action@v2
-        with:
-          version: v1.29
-          args: --timeout 300s
+        run: make lint
   test:
     runs-on: ubuntu-latest
     steps:

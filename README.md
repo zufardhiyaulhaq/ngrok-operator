@@ -35,7 +35,6 @@ https://ngrok.zufardhiyaulhaq.com
 ```
 
 ## Values
-see example files [here](charts/ngrok-operator/values.yaml)
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -47,7 +46,8 @@ see example files [here](charts/ngrok-operator/values.yaml)
 | resources.requests.cpu | string | `"100m"` |  |
 | resources.requests.memory | string | `"20Mi"` |  |
 
-File `value.yaml`
+see example files [here](https://github.com/zufardhiyaulhaq/ngrok-operator/blob/master/charts/ngrok-operator/values.yaml)
+
 ```yaml
 operator:
   # image of ngrok-operator

@@ -54,6 +54,7 @@ jobs:
       - name: build image
         uses: docker/build-push-action@v2
         with:
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: zufardhiyaulhaq/ngrok-operator:dev-ci
   e2e:

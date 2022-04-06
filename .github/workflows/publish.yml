@@ -22,5 +22,6 @@ jobs:
       - name: build image
         uses: docker/build-push-action@v2
         with:
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: zufardhiyaulhaq/ngrok-operator:latest,zufardhiyaulhaq/ngrok-operator:${{ steps.vars.outputs.tag }}

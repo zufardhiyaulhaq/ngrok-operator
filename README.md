@@ -2,7 +2,7 @@
 
 Ngrok operator provide developer easy access to private Kubernetes cluster for testing purpose via ngrok. Automate the creation of ngrok tunnel via CRD and automatically reload ngrok session when expired!
 
-![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.2.0](https://img.shields.io/badge/AppVersion-1.2.0-informational?style=flat-square) [![made with Go](https://img.shields.io/badge/made%20with-Go-brightgreen)](http://golang.org) [![Github master branch build](https://img.shields.io/github/workflow/status/zufardhiyaulhaq/ngrok-operator/Master)](https://github.com/zufardhiyaulhaq/ngrok-operator/actions/workflows/master.yml) [![GitHub issues](https://img.shields.io/github/issues/zufardhiyaulhaq/ngrok-operator)](https://github.com/zufardhiyaulhaq/ngrok-operator/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/zufardhiyaulhaq/ngrok-operator)](https://github.com/zufardhiyaulhaq/ngrok-operator/pulls)
+![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.3.0](https://img.shields.io/badge/AppVersion-1.3.0-informational?style=flat-square) [![made with Go](https://img.shields.io/badge/made%20with-Go-brightgreen)](http://golang.org) [![Github master branch build](https://img.shields.io/github/workflow/status/zufardhiyaulhaq/ngrok-operator/Master)](https://github.com/zufardhiyaulhaq/ngrok-operator/actions/workflows/master.yml) [![GitHub issues](https://img.shields.io/github/issues/zufardhiyaulhaq/ngrok-operator)](https://github.com/zufardhiyaulhaq/ngrok-operator/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/zufardhiyaulhaq/ngrok-operator)](https://github.com/zufardhiyaulhaq/ngrok-operator/pulls)
 
 ## Installing
 
@@ -40,7 +40,7 @@ https://ngrok.zufardhiyaulhaq.com
 |-----|------|---------|-------------|
 | operator.image | string | `"zufardhiyaulhaq/ngrok-operator"` |  |
 | operator.replica | int | `1` |  |
-| operator.tag | string | `"v1.2.0"` |  |
+| operator.tag | string | `"v1.3.0"` |  |
 | resources.limits.cpu | string | `"200m"` |  |
 | resources.limits.memory | string | `"100Mi"` |  |
 | resources.requests.cpu | string | `"100m"` |  |
@@ -53,7 +53,7 @@ operator:
   # image of ngrok-operator
   image: "zufardhiyaulhaq/ngrok-operator"
   # tag of ngrok-operator image
-  tag: "v1.2.0"
+  tag: "v1.3.0"
   # number of replica for deployment
   replica: 1
 

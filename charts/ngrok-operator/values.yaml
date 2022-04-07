@@ -2,7 +2,7 @@ operator:
   # image of ngrok-operator
   image: "zufardhiyaulhaq/ngrok-operator"
   # tag of ngrok-operator image
-  tag: "v1.2.0"
+  tag: "v1.3.0"
   # number of replica for deployment
   replica: 1
 

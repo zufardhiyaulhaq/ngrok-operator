@@ -52,5 +52,6 @@ spec:
 
   # define the image for the ngrok
   # default to zufardhiyaulhaq/ngrok:latest
+  # please use zufardhiyaulhaq/ngrok:arm64 or zufardhiyaulhaq/ngrok:v1.0.0-arm64 if you are in ARM64 Arch
   podSpec:
     image: zufardhiyaulhaq/ngrok:v1.0.0

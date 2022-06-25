@@ -211,6 +211,7 @@ readme:
 .PHONY: helm.create.releases
 helm.create.releases:
 	helm package charts/ngrok-operator --destination charts/releases
+	helm repo index charts/releases
 
 .PHONY: lint
 lint: 

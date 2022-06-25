@@ -587,6 +587,8 @@ github.com/norwoodj/helm-docs v1.6.0 h1:EH2vShsTEsQ0gjvWsrofYV5ylb9p6LdX7LCIvkkF
 github.com/norwoodj/helm-docs v1.6.0/go.mod h1:z8Evt7esakCuqMKuwpVAAp4NyHgQbH3iGWsGmLuBcV0=
 github.com/norwoodj/helm-docs v1.8.1 h1:H6MdbalkoGNXMwehB4hbh3qDLSvEFeecVlx/l7pPEJg=
 github.com/norwoodj/helm-docs v1.8.1/go.mod h1:TD/foEn16xVJWjgdFZLErRnxyLPCo4HM5t98/R0860I=
+github.com/norwoodj/helm-docs v1.10.0 h1:3EqpjNY7+/SXI+Wd0MQ+dl0xZwUr+p7O5TpD5O1gf14=
+github.com/norwoodj/helm-docs v1.10.0/go.mod h1:TD/foEn16xVJWjgdFZLErRnxyLPCo4HM5t98/R0860I=
 github.com/nxadm/tail v1.4.4/go.mod h1:kenIhsEOeOJmVchQTgglprH7qJGnHDVpk1VPCcaMI8A=
 github.com/nxadm/tail v1.4.8 h1:nPr65rt6Y5JFSKQO7qToXr7pePgD6Gwiw05lkbyAQTE=
 github.com/nxadm/tail v1.4.8/go.mod h1:+ncqLTQzXmGhMZNUePPaPqPvBxHAIsmXswZKocGu+AU=

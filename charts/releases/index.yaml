@@ -1,0 +1,52 @@
+apiVersion: v1
+entries:
+  ngrok-operator:
+  - apiVersion: v2
+    appVersion: 1.3.0
+    created: "2022-06-25T17:48:54.259284+07:00"
+    description: Ngrok operator provide developer easy access to private Kubernetes
+      cluster for testing purpose via ngrok. Automate the creation of ngrok tunnel
+      via CRD and automatically reload ngrok session when expired!
+    digest: 23b39c5adbd9023777259730707b3ad22117b3d16bc86db959e85489cbe4d183
+    home: https://github.com/zufardhiyaulhaq/ngrok-operator
+    maintainers:
+    - email: zufardhiyaulhaq@gmail.com
+      name: Zufar Dhiyaulhaq
+      url: https://zufardhiyaulhaq.com
+    name: ngrok-operator
+    type: application
+    urls:
+    - ngrok-operator-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
+    appVersion: 1.1.0
+    created: "2022-06-25T17:48:54.258051+07:00"
+    description: Ngrok operator provide developer easy access to private Kubernetes
+      cluster for testing purpose via ngrok. Automate the creation of ngrok tunnel
+      via CRD and automatically reload ngrok session when expired!
+    digest: dfc0a39f368fd92034140ee97358230d93bc362256bb532888b88a41beade193
+    home: https://github.com/zufardhiyaulhaq/ngrok-operator
+    maintainers:
+    - email: zufardhiyaulhaq@gmail.com
+      name: Zufar Dhiyaulhaq
+      url: https://zufardhiyaulhaq.com
+    name: ngrok-operator
+    type: application
+    urls:
+    - ngrok-operator-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v1
+    appVersion: 0.0.2
+    created: "2022-06-25T17:48:54.256192+07:00"
+    description: ngrok-operator for managing ngrok lifecycle
+    digest: 1566f5642dc07350540a72ff92ecfa57009c71952ecffdb968594acda8371a1a
+    home: https://github.com/zufardhiyaulhaq/ngrok-operator
+    keywords:
+    - ngrok
+    - kubernetes
+    - operator
+    name: ngrok-operator
+    urls:
+    - ngrok-operator-0.0.2.tgz
+    version: 0.0.2
+generated: "2022-06-25T17:48:54.254711+07:00"
